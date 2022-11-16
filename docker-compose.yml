@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  web:
+    build: ./web
+    command: gunicorn --bind 0.0.0.0:5000 app.server:app
+    expose:
+      - 5000
+    env_file:
+      - ./.env.dev
+  # nginx:
+  #   build: ./nginx
+  #   ports:
+  #     - 1337:80
+  #   depends_on:
+  #     - web
+  httpd:
+    build:  ./apache
+    ports:
+      - 1337:80
+    depends_on:
+      - web
